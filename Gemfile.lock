@@ -9,7 +9,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  gosu
+  gosu (~> 0.14.4)
 
 BUNDLED WITH
    1.16.6
