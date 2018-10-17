@@ -29,18 +29,18 @@ class Cell
   end
 
   def reproduction
-    @alive = true;
+    @alive = true
   end
 
   def survive
-    @alive = true;
+    @alive = true
   end
 
   def overpopulation
-    @alive = false;
+    @alive = false
   end
 
   def underpopulation
-    @alive = false;
+    @alive = false
   end
 end

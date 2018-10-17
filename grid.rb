@@ -20,7 +20,7 @@ require 'gosu'
 class Grid < Gosu::Window
   attr_reader :grid_width, :grid_height, :cells
 
-  def initialize(width = 1080, height = 720, grid_width = 50, grid_height = 50)
+  def initialize(width = 1080, height = 720, grid_width = width / 10, grid_height = height / 10)
     super width, height
     self.caption = 'Game of Life'
 
@@ -44,6 +44,14 @@ class Grid < Gosu::Window
   # Check whether or not a new cell should be alive or not, override this method to change starting values.
   def alive_on_initiate(x, y)
     [true, false].sample
+  end
+
+  # Locate cell in grid, override this method to change the dynamics of the grid (ex. cylinder/torus)
+  def locate_cell(cells, x, y)
+    # Outside of grid
+    return nil if x < 0 || x >= @grid_width || y < 0 || y >= @grid_height
+
+    cells[x][y]
   end
 
   def update
@@ -107,7 +115,7 @@ class Grid < Gosu::Window
         # Current cell is not an adjacent cell
         next if x_off == 0 && y_off == 0
 
-        adjacent = cell(@cells, cell.x + x_off, cell.y + y_off)
+        adjacent = locate_cell(@cells, cell.x + x_off, cell.y + y_off)
 
         # No cell here, move on
         next if adjacent.nil?
@@ -119,13 +127,21 @@ class Grid < Gosu::Window
     count
   end
 
-  def cell(cells, x, y)
+  private :living_adjacent_count
+  protected :locate_cell
+end
+
+class CylinderGrid < Grid
+  def locate_cell(cells, x, y)
     # Outside of grid
-    return nil if x < 0 || x >= @grid_width || y < 0 || y >= @grid_height
+    return nil if y < 0 || y >= @grid_height
 
-    cells[x][y]
+    cells[(x + @grid_width) % @grid_width][y]
   end
+end
 
-  # Encapsulation
-  private :living_adjacent_count, :cell
+class TorusGrid < Grid
+  def locate_cell(cells, x, y)
+    cells[(x + @grid_width) % @grid_width][(y + @grid_height) % @grid_height]
+  end
 end
