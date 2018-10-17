@@ -24,6 +24,10 @@ class Cell
     @alive = alive
   end
 
+  def buffer(cell)
+    @alive = cell.alive
+  end
+
   def reproduction
     @alive = true;
   end

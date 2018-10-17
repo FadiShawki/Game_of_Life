@@ -79,7 +79,7 @@ class Grid < Gosu::Window
     # Swap buffer with current cells
     @grid_width.times do |x|
       @grid_height.times do |y|
-        @cells[x][y].alive = @buffered_cells[x][y].alive
+        @cells[x][y].buffer(@buffered_cells[x][y])
       end
     end
   end
