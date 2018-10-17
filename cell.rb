@@ -16,7 +16,7 @@
 # @author Fadi Shawki - 2018
 #
 class Cell
-  attr_accessor :x, :y, :alive
+  attr_reader :x, :y, :alive
 
   def initialize(x, y, alive)
     @x = x

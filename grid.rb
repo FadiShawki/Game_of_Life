@@ -22,7 +22,7 @@ class Grid < Gosu::Window
 
   def initialize(width = 1080, height = 720, grid_width = 50, grid_height = 50)
     super width, height
-    self.caption = "Game of Life"
+    self.caption = 'Game of Life'
 
     @grid_width = grid_width
     @grid_height = grid_height
@@ -43,7 +43,7 @@ class Grid < Gosu::Window
 
   # Check whether or not a new cell should be alive or not, override this method to change starting values.
   def alive_on_initiate(x, y)
-    return [true, false].sample
+    [true, false].sample
   end
 
   def update
@@ -70,9 +70,7 @@ class Grid < Gosu::Window
         end
 
         # Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
-        if adjacent_count == 3
-          buffered_cell.reproduction
-        end
+        buffered_cell.reproduction if adjacent_count == 3
       end
     end
 
@@ -104,34 +102,28 @@ class Grid < Gosu::Window
     # 0X0
     # 000
 
-    -1.upto(1) do |xOff|
-      -1.upto(1) do |yOff|
+    -1.upto(1) do |x_off|
+      -1.upto(1) do |y_off|
         # Current cell is not an adjacent cell
-        if xOff == 00 && yOff == 0
-          next
-        end
+        next if x_off == 0 && y_off == 0
 
-        adjacent = cell(@cells, cell.x + xOff, cell.y + yOff)
+        adjacent = cell(@cells, cell.x + x_off, cell.y + y_off)
 
         # No cell here, move on
-        if adjacent == nil
-          next
-        end
+        next if adjacent.nil?
 
         count += (adjacent.alive ? 1 : 0)
       end
     end
 
-    return count
+    count
   end
 
   def cell(cells, x, y)
     # Outside of grid
-    if x < 0 || x >= @grid_width || y < 0 || y >= @grid_height
-      return nil;
-    end
+    return nil if x < 0 || x >= @grid_width || y < 0 || y >= @grid_height
 
-    return cells[x][y]
+    cells[x][y]
   end
 
   # Encapsulation
