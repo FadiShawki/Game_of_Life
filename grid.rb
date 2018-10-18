@@ -128,7 +128,7 @@ class Grid < Gosu::Window
   end
 
   private :living_adjacent_count
-  protected :locate_cell
+  protected :alive_on_initiate, :locate_cell
 end
 
 class CylinderGrid < Grid
